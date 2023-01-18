@@ -17,6 +17,7 @@ function App() {
   async function loadActivities() {
     await api.get("/activities").then((response) => {
       setActivities(response.data);
+      console.log(activities);
     });
   }
 
@@ -24,7 +25,7 @@ function App() {
     loadActivities();
   }, []);
 
-  async function handleAddActivity(event: FormEvent) {
+  async function handleCreateActivity(event: FormEvent) {
     event.preventDefault();
 
     try {
@@ -33,11 +34,29 @@ function App() {
         description: activityDescription,
         concluded: false,
       };
+
       await api.post("/activities", data);
       toast.success("Atividade adicionada com sucesso!!");
+
+      setActivityDescription("");
       loadActivities();
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleDeleteActivity(id: string) {
+    try {
+      await api.delete(`activities/${id}`);
+      setActivities(activities.filter((activity) => activity.id === id));
+
+      toast("Deletado com sucesso!!", {
+        icon: "🗑️",
+      });
+
+      loadActivities();
+    } catch (error) {
+      toast.error("Erro ao deletar atividade.");
     }
   }
 
@@ -47,7 +66,7 @@ function App() {
       <div className={styles.container}>
         <Header />
         <div className={styles.content}>
-          <form className={styles.form} onSubmit={handleAddActivity}>
+          <form className={styles.form} onSubmit={handleCreateActivity}>
             <input
               type="text"
               id="activity"
@@ -81,8 +100,10 @@ function App() {
               {activities.map((activity: Activity) => (
                 <ActivityCard
                   key={activity.id}
+                  id={activity.id}
                   description={activity.description}
                   concluded={activity.concluded}
+                  deleteActivity={() => handleDeleteActivity(activity.id)}
                 />
               ))}
             </div>
