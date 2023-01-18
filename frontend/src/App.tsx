@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 import { Header } from "./components/Header";
 import { ActivityCard } from "./components/ActivityCard";
@@ -11,9 +12,10 @@ import styles from "./styles/app.module.scss";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [activityDescription, setActivityDescription] = useState<string>("");
 
-  function loadActivities() {
-    api.get("/activities").then((response) => {
+  async function loadActivities() {
+    await api.get("/activities").then((response) => {
       setActivities(response.data);
     });
   }
@@ -22,17 +24,36 @@ function App() {
     loadActivities();
   }, []);
 
+  async function handleAddActivity(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      const data = {
+        id: "",
+        description: activityDescription,
+        concluded: false,
+      };
+      await api.post("/activities", data);
+      toast.success("Atividade adicionada com sucesso!!");
+      loadActivities();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="App">
+      <Toaster />
       <div className={styles.container}>
         <Header />
         <div className={styles.content}>
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleAddActivity}>
             <input
               type="text"
-              name="activity"
               id="activity"
+              value={activityDescription}
               placeholder="Adicione uma nova tarefa"
+              onChange={(e) => setActivityDescription(e.target.value)}
               required
             />
             <button type="submit" className={styles.createActivityButton}>
@@ -45,11 +66,15 @@ function App() {
             <div className={styles.activitiesInfo}>
               <div className={styles.activitiesCreated}>
                 <span style={{ color: "#4ea8de" }}>Tarefas criadas</span>
-                <div className={styles.numberOfActivity}>5</div>
+                <div className={styles.numberOfActivity}>
+                  {activities.length}
+                </div>
               </div>
               <div className={styles.activitiesConcluded}>
                 <span>Concluídas</span>
-                <div className={styles.numberOfActivity}>2 de 5</div>
+                <div className={styles.numberOfActivity}>
+                  2 de {activities.length}
+                </div>
               </div>
             </div>
             <div className={styles.activitiesList}>

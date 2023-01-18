@@ -15,11 +15,10 @@ app.get("/activities", async (request, response) => {
 });
 
 app.post("/activities", async (request, response) => {
-  const { title, description } = request.body;
+  const { description } = request.body;
 
   const activity = await prisma.activity.create({
     data: {
-      title,
       description,
       concluded: false,
     },
@@ -41,11 +40,11 @@ app.delete(`/activities/:id`, async (request, response) => {
 
 app.put("/activities/:id", async (request, response) => {
   const { id } = request.params;
-  const { title, description, concluded } = request.body;
+  const { description, concluded } = request.body;
 
   const activity = await prisma.activity.update({
     where: { id: id },
-    data: { title, description, concluded },
+    data: { description, concluded },
   });
 
   return response.json(activity);
