@@ -15,13 +15,13 @@ app.get("/activities", async (request, response) => {
 });
 
 app.post("/activities", async (request, response) => {
-  const body = request.body;
+  const { title, description } = request.body;
 
   const activity = await prisma.activity.create({
     data: {
-      title: body.title,
-      description: body.description,
-      concluded: body.concluded,
+      title,
+      description,
+      concluded: false,
     },
   });
 

@@ -10,8 +10,8 @@ interface Props {
 export function ActivityCard({ description, concluded }: Props) {
   return (
     <div className={styles.container}>
-      <input type="checkbox" name="" id="" />
-      <span>{description}</span>
+      <input type="checkbox" name="description" id="description" />
+      <label htmlFor="description">{description}</label>
       <button>
         <Trash color="white" size={20} />
       </button>

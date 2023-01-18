@@ -20,7 +20,6 @@ function App() {
 
   useEffect(() => {
     loadActivities();
-    console.log(activities);
   }, []);
 
   return (
@@ -31,8 +30,8 @@ function App() {
           <form className={styles.form}>
             <input
               type="text"
-              name="actvity"
-              id="actvity"
+              name="activity"
+              id="activity"
               placeholder="Adicione uma nova tarefa"
             />
             <button type="submit" className={styles.createActivityButton}>
