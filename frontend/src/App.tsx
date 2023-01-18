@@ -33,6 +33,7 @@ function App() {
               name="activity"
               id="activity"
               placeholder="Adicione uma nova tarefa"
+              required
             />
             <button type="submit" className={styles.createActivityButton}>
               <span>Criar</span>
