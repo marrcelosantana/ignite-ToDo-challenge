@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content {
+  width: 46rem;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  margin-top: -1.8rem;
+  margin-bottom: 3rem;
+
+  input {
+    width: 39.875rem;
+    height: 3.375rem;
+    background: var(--gray-500);
+    color: var(--gray-100);
+    outline: 0;
+    border-radius: 8px;
+    border: 1.5px solid var(--black);
+    padding: 0 1rem;
+  }
+
+  .createActivityButton {
+    width: 5.625rem;
+    height: 3.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 8px;
+    background: var(--purple);
+    border: 0;
+    color: var(--gray-100);
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+}
+
+.activitiesContainer {
+  width: 100%;
+
+  .activitiesInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .activitiesCreated,
+  .activitiesConcluded {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 0.875rem;
+
+    span {
+      font-weight: bold;
+      color: var(--purple);
+    }
+
+    .numberOfActivity {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--gray-400);
+      padding: 5px;
+    }
+  }
+
+  .activitiesList {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%;
+  }
+}

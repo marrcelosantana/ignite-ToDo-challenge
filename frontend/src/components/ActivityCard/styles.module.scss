@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 8px;
+
+  background: var(--gray-400);
+  color: var(--white);
+  gap: 1rem;
+  font-size: 0.875rem;
+
+  button {
+    background: none;
+    outline: 0;
+    border: 0;
+  }
+}

@@ -1,0 +1,24 @@
+.container {
+  background-color: var(--black);
+  width: 100%;
+  height: 12.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  font-size: 40px;
+  font-weight: 900;
+
+  img {
+    width: 2rem;
+    height: 3rem;
+  }
+
+  .firstSpan {
+    color: var(--blue);
+  }
+
+  .secondSpan {
+    color: var(--purple);
+  }
+}
