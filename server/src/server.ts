@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/activities", async (request, response) => {
-  const games = await prisma.activity.findMany();
-  return response.json(games);
+  const activities = await prisma.activity.findMany();
+  return response.json(activities);
 });
 
 app.post("/activities", async (request, response) => {
@@ -26,6 +26,29 @@ app.post("/activities", async (request, response) => {
   });
 
   return response.status(201).json(activity);
+});
+
+app.delete(`/activities/:id`, async (request, response) => {
+  const { id } = request.params;
+  const activity = await prisma.activity.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  return response.json(activity);
+});
+
+app.put("/activities/:id", async (request, response) => {
+  const { id } = request.params;
+  const { title, description, concluded } = request.body;
+
+  const activity = await prisma.activity.update({
+    where: { id: id },
+    data: { title, description, concluded },
+  });
+
+  return response.json(activity);
 });
 
 app.listen(3333);
