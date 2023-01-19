@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ModalDelete } from "../ModalDelete";
 import { Trash } from "phosphor-react";
 import styles from "./styles.module.scss";
@@ -7,7 +7,7 @@ interface Props {
   id: string;
   description: string;
   concluded: boolean;
-  deleteActivity: (id: string) => Promise<void>;
+  deleteActivity: (id: string) => void;
 }
 
 export function ActivityCard({
@@ -16,7 +16,7 @@ export function ActivityCard({
   concluded,
   deleteActivity,
 }: Props) {
-  // const [isChecked, setIsChecked] = useState(concluded);
+  const [isChecked, setIsChecked] = useState(concluded);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -28,9 +28,18 @@ export function ActivityCard({
     setIsOpenModal(false);
   }
 
+  useEffect(() => {
+    console.log(isChecked);
+  }, []);
+
   return (
     <div className={styles.container}>
-      <input type="checkbox" name="description" id="description" />
+      <input
+        type="checkbox"
+        name="description"
+        id="description"
+        onChange={(e) => setIsChecked(e.target.checked)}
+      />
       <label htmlFor="description">{description}</label>
       <button onClick={handleOpenModal}>
         <Trash color="white" size={20} />

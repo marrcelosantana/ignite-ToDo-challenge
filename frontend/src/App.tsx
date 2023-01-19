@@ -3,7 +3,6 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { Header } from "./components/Header";
 import { ActivityCard } from "./components/ActivityCard";
-import { ModalDelete } from "./components/ModalDelete";
 import { Activity } from "./models/Activity";
 import { api } from "../src/server/api";
 
@@ -18,7 +17,6 @@ function App() {
   async function loadActivities() {
     await api.get("/activities").then((response) => {
       setActivities(response.data);
-      console.log(activities);
     });
   }
 

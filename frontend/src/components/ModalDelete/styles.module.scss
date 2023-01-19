@@ -36,15 +36,11 @@
     background: none;
     outline: 0;
     border: 0;
-
-    svg {
-      color: var(--blue-dark);
-    }
   }
 }
 
 .title {
-  color: var(--blue-dark);
+  color: var(--black);
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
@@ -67,7 +63,7 @@
   }
 
   .yes {
-    background: var(--purple);
+    background: #37af65;
   }
 
   .no {
