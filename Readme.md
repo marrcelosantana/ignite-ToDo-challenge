@@ -2,7 +2,7 @@
 
 Home                     
 :-------------------------:
-<img src= "./prints/Web/Home.jpg">  
+<img src= "./prints/web.jpg">  
 
 ## Responsividade 🔥
 
