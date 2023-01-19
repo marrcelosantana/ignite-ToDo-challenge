@@ -5,17 +5,17 @@ import { X, WarningCircle } from "phosphor-react";
 import styles from "./styles.module.scss";
 
 interface ModalProps {
-  activityId: string;
+  taskId: string;
   isOpenModal: boolean;
   closeModal: () => void;
-  deleteActivity: (id: string) => void;
+  deleteTask: (id: string) => void;
 }
 
 export function ModalDelete({
-  activityId,
+  taskId,
   isOpenModal,
   closeModal,
-  deleteActivity,
+  deleteTask,
 }: ModalProps) {
   return (
     <Modal
@@ -38,10 +38,7 @@ export function ModalDelete({
         <span>Você confirma a exclusão?</span>
       </div>
       <div className={styles.actions}>
-        <button
-          className={styles.yes}
-          onClick={() => deleteActivity(activityId)}
-        >
+        <button className={styles.yes} onClick={() => deleteTask(taskId)}>
           Sim
         </button>
         <button className={styles.no} onClick={closeModal}>

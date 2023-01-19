@@ -9,45 +9,45 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
-app.get("/activities", async (request, response) => {
-  const activities = await prisma.activity.findMany();
-  return response.json(activities);
+app.get("/tasks", async (request, response) => {
+  const tasks = await prisma.task.findMany();
+  return response.json(tasks);
 });
 
-app.post("/activities", async (request, response) => {
+app.post("/tasks", async (request, response) => {
   const { description } = request.body;
 
-  const activity = await prisma.activity.create({
+  const task = await prisma.task.create({
     data: {
       description,
-      concluded: false,
+      isDone: false,
     },
   });
 
-  return response.status(201).json(activity);
+  return response.status(201).json(task);
 });
 
-app.delete(`/activities/:id`, async (request, response) => {
+app.delete(`/tasks/:id`, async (request, response) => {
   const { id } = request.params;
-  const activity = await prisma.activity.delete({
+  const task = await prisma.task.delete({
     where: {
       id: id,
     },
   });
 
-  return response.json(activity);
+  return response.json(task);
 });
 
-app.put("/activities/:id", async (request, response) => {
+app.put("/tasks/:id", async (request, response) => {
   const { id } = request.params;
-  const { description, concluded } = request.body;
+  const { description, isDone } = request.body;
 
-  const activity = await prisma.activity.update({
+  const task = await prisma.task.update({
     where: { id: id },
-    data: { description, concluded },
+    data: { description, isDone },
   });
 
-  return response.json(activity);
+  return response.json(task);
 });
 
 app.listen(3333);

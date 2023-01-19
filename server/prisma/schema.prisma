@@ -7,8 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Activity {
+model Task {
   id          String  @id @default(uuid())
   description String
-  concluded   Boolean
+  isDone      Boolean
 }

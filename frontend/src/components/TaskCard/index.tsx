@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { ModalDelete } from "../ModalDelete";
 import { Trash, Check } from "phosphor-react";
-import { Activity } from "../../models/Activity";
+import { Task } from "../../models/Task";
 
 import styles from "./styles.module.scss";
 
 interface Props {
-  activity: Activity;
-  deleteActivity: (id: string) => void;
+  task: Task;
+  deleteTask: (id: string) => void;
   changeStatus: (id: string) => void;
 }
 
-export function ActivityCard({
-  activity,
-  deleteActivity,
-  changeStatus,
-}: Props) {
+export function TaskCard({ task, deleteTask, changeStatus }: Props) {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   function handleOpenModal() {
@@ -29,23 +25,19 @@ export function ActivityCard({
   return (
     <div className={styles.container}>
       <button
-        className={
-          activity.concluded === false ? styles.notConcluded : styles.concluded
-        }
-        onClick={() => changeStatus(activity.id)}
+        className={task.isDone === false ? styles.notDone : styles.done}
+        onClick={() => changeStatus(task.id)}
       >
         <Check size={14} />
       </button>
       <div className="description">
         <label
-          htmlFor={activity.id}
+          htmlFor={task.id}
           className={
-            activity.concluded === true
-              ? styles.textConcluded
-              : styles.textNotConcluded
+            task.isDone === true ? styles.textDone : styles.textNotDone
           }
         >
-          {activity.description}
+          {task.description}
         </label>
       </div>
       <button onClick={handleOpenModal} className={styles.trashBtn}>
@@ -54,8 +46,8 @@ export function ActivityCard({
       <ModalDelete
         isOpenModal={isOpenModal}
         closeModal={handleCloseModal}
-        deleteActivity={() => deleteActivity(activity.id)}
-        activityId={activity.id}
+        deleteTask={() => deleteTask(task.id)}
+        taskId={task.id}
       />
     </div>
   );

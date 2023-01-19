@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Header } from "./components/Header";
-import { ActivityCard } from "./components/ActivityCard";
-import { Activity } from "./models/Activity";
+import { TaskCard } from "./components/TaskCard";
+import { Task } from "./models/Task";
 import { api } from "../src/server/api";
 
 import { PlusCircle } from "phosphor-react";
@@ -11,35 +11,35 @@ import ClipboardImg from "./assets/Clipboard.svg";
 import styles from "./app.module.scss";
 
 function App() {
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [activityDescription, setActivityDescription] = useState<string>("");
-  const [activityStatus, setActivityStatus] = useState<boolean>(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [taskDescription, setTaskDescription] = useState<string>("");
+  const [taskStatus, setTaskStatus] = useState<boolean>(false);
 
-  async function loadActivities() {
-    await api.get("/activities").then((response) => {
-      setActivities(response.data);
+  async function loadTasks() {
+    await api.get("/tasks").then((response) => {
+      setTasks(response.data);
     });
   }
 
   useEffect(() => {
-    loadActivities();
+    loadTasks();
   }, []);
 
-  async function handleCreateActivity(event: FormEvent) {
+  async function handleCreateTask(event: FormEvent) {
     event.preventDefault();
 
     try {
       const data = {
         id: "",
-        description: activityDescription,
-        concluded: false,
+        description: taskDescription,
+        isDone: false,
       };
 
-      await api.post("/activities", data);
+      await api.post("/tasks", data);
       toast.success("Atividade adicionada com sucesso!!");
 
-      setActivityDescription("");
-      loadActivities();
+      setTaskDescription("");
+      loadTasks();
     } catch (error) {
       console.log(error);
     }
@@ -47,44 +47,44 @@ function App() {
 
   async function handleChangeStatus(id: string) {
     try {
-      setActivityStatus(!activityStatus);
+      setTaskStatus(!taskStatus);
 
       const data = {
-        concluded: activityStatus,
+        isDone: taskStatus,
       };
 
-      await api.put(`activities/${id}`, data);
-      loadActivities();
+      await api.put(`tasks/${id}`, data);
+      loadTasks();
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function handleDeleteActivity(id: string) {
+  async function handleDeleteTask(id: string) {
     try {
-      await api.delete(`activities/${id}`);
-      setActivities(activities.filter((activity) => activity.id === id));
+      await api.delete(`tasks/${id}`);
+      setTasks(tasks.filter((task) => task.id === id));
 
       toast("Deletado com sucesso!!", {
         icon: "🗑️",
       });
 
-      loadActivities();
+      loadTasks();
     } catch (error) {
       toast.error("Erro ao deletar atividade.");
     }
   }
 
-  function findConcluded() {
-    let concluded = [];
+  function findTaskDone() {
+    let taskDones = [];
 
-    activities.filter((activity) => {
-      if (activity.concluded === true) {
-        concluded.push(activity);
+    tasks.filter((task) => {
+      if (task.isDone === true) {
+        taskDones.push(task);
       }
     });
 
-    return concluded.length;
+    return taskDones.length;
   }
 
   return (
@@ -93,44 +93,48 @@ function App() {
       <div className={styles.container}>
         <Header />
         <div className={styles.content}>
-          <form className={styles.form} onSubmit={handleCreateActivity}>
+          <form className={styles.form} onSubmit={handleCreateTask}>
             <input
               type="text"
-              id="activity"
-              value={activityDescription}
+              id="task"
+              value={taskDescription}
               placeholder="Adicione uma nova tarefa"
-              onChange={(e) => setActivityDescription(e.target.value)}
+              onChange={(e) => setTaskDescription(e.target.value)}
               required
             />
-            <button type="submit" className={styles.createActivityButton}>
+            <button type="submit" className={styles.createTaskButton}>
               <span>Criar</span>
               <PlusCircle color="white" size={20} />
             </button>
           </form>
 
-          <div className={styles.activitiesContainer}>
-            <div className={styles.activitiesInfo}>
-              <div className={styles.activitiesCreated}>
+          <div className={styles.tasksContainer}>
+            <div className={styles.tasksInfo}>
+              <div className={styles.tasksCreated}>
                 <span style={{ color: "#4ea8de" }}>Tarefas criadas</span>
-                <div className={styles.numberOfActivity}>
-                  {activities.length}
-                </div>
+                <div className={styles.numberOfTask}>{tasks.length}</div>
               </div>
-              <div className={styles.activitiesConcluded}>
-                <span>Concluídas</span>
-                <div className={styles.numberOfActivity}>
-                  {findConcluded()} de {activities.length}
+              <div className={styles.tasksDone}>
+                <span>Concluídas:</span>
+                <div className={styles.numberOfTask}>
+                  {findTaskDone() === 0 ? (
+                    <p>Nenhuma</p>
+                  ) : (
+                    <p>
+                      {findTaskDone()} de {tasks.length}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
-            {activities.length > 0 ? (
-              <div className={styles.activitiesList}>
-                {activities.map((activity: Activity) => (
-                  <ActivityCard
-                    key={activity.id}
-                    activity={activity}
-                    deleteActivity={() => handleDeleteActivity(activity.id)}
-                    changeStatus={() => handleChangeStatus(activity.id)}
+            {tasks.length > 0 ? (
+              <div className={styles.tasksList}>
+                {tasks.map((task: Task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    deleteTask={() => handleDeleteTask(task.id)}
+                    changeStatus={() => handleChangeStatus(task.id)}
                   />
                 ))}
               </div>
