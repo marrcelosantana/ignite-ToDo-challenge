@@ -93,6 +93,29 @@
   }
 }
 
+.emptyList {
+  width: 100%;
+  height: 15.25rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+
+  border-top: 1px solid var(--gray-300);
+  border-radius: 8px;
+
+  .emptyInfo {
+    font-size: 1rem;
+    color: var(--gray-300);
+
+    p {
+      font-weight: bold;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   html {
     font-size: 87.5%;

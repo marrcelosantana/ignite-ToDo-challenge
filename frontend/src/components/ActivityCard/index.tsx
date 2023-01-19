@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ModalDelete } from "../ModalDelete";
-import { Trash } from "phosphor-react";
+import { Trash, Check } from "phosphor-react";
 import { Activity } from "../../models/Activity";
 
 import styles from "./styles.module.scss";
@@ -8,9 +8,14 @@ import styles from "./styles.module.scss";
 interface Props {
   activity: Activity;
   deleteActivity: (id: string) => void;
+  changeStatus: (id: string) => void;
 }
 
-export function ActivityCard({ activity, deleteActivity }: Props) {
+export function ActivityCard({
+  activity,
+  deleteActivity,
+  changeStatus,
+}: Props) {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   function handleOpenModal() {
@@ -21,13 +26,29 @@ export function ActivityCard({ activity, deleteActivity }: Props) {
     setIsOpenModal(false);
   }
 
-  useEffect(() => {}, []);
-
   return (
     <div className={styles.container}>
-      <input type="checkbox" id={activity.id} style={{ cursor: "pointer" }} />
-      <label htmlFor={activity.id}>{activity.description}</label>
-      <button onClick={handleOpenModal}>
+      <button
+        className={
+          activity.concluded === false ? styles.notConcluded : styles.concluded
+        }
+        onClick={() => changeStatus(activity.id)}
+      >
+        <Check size={14} />
+      </button>
+      <div className="description">
+        <label
+          htmlFor={activity.id}
+          className={
+            activity.concluded === true
+              ? styles.textConcluded
+              : styles.textNotConcluded
+          }
+        >
+          {activity.description}
+        </label>
+      </div>
+      <button onClick={handleOpenModal} className={styles.trashBtn}>
         <Trash color="white" size={20} />
       </button>
       <ModalDelete

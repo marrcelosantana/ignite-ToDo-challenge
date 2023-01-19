@@ -5,15 +5,55 @@
   justify-content: space-between;
   padding: 1rem;
   border-radius: 8px;
+  font-size: 0.875rem;
 
   background: var(--gray-400);
   color: var(--white);
   gap: 1rem;
-  font-size: 0.875rem;
 
-  button {
+  .textConcluded {
+    text-decoration: line-through;
+  }
+
+  .textNotConcluded {
+    text-decoration: none;
+  }
+
+  .trashBtn {
     background: none;
     outline: 0;
     border: 0;
+  }
+
+  .notConcluded {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background-color: var(--gray-400);
+    border: 2px solid var(--blue);
+
+    svg {
+      color: var(--gray-400);
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .concluded {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background-color: var(--purple);
+    border: 2px solid var(--purple);
+
+    svg {
+      color: var(--gray-100);
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

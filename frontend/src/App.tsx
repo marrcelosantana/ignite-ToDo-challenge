@@ -6,12 +6,14 @@ import { Activity } from "./models/Activity";
 import { api } from "../src/server/api";
 
 import { PlusCircle } from "phosphor-react";
+import ClipboardImg from "./assets/Clipboard.svg";
 
-import styles from "./styles/app.module.scss";
+import styles from "./app.module.scss";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [activityDescription, setActivityDescription] = useState<string>("");
+  const [activityStatus, setActivityStatus] = useState<boolean>(false);
 
   async function loadActivities() {
     await api.get("/activities").then((response) => {
@@ -38,6 +40,21 @@ function App() {
       toast.success("Atividade adicionada com sucesso!!");
 
       setActivityDescription("");
+      loadActivities();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleChangeStatus(id: string) {
+    try {
+      setActivityStatus(!activityStatus);
+
+      const data = {
+        concluded: activityStatus,
+      };
+
+      await api.put(`activities/${id}`, data);
       loadActivities();
     } catch (error) {
       console.log(error);
@@ -95,15 +112,26 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className={styles.activitiesList}>
-              {activities.map((activity: Activity) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                  deleteActivity={() => handleDeleteActivity(activity.id)}
-                />
-              ))}
-            </div>
+            {activities.length > 0 ? (
+              <div className={styles.activitiesList}>
+                {activities.map((activity: Activity) => (
+                  <ActivityCard
+                    key={activity.id}
+                    activity={activity}
+                    deleteActivity={() => handleDeleteActivity(activity.id)}
+                    changeStatus={() => handleChangeStatus(activity.id)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyList}>
+                <img src={ClipboardImg} />
+                <div className={styles.emptyInfo}>
+                  <p>Você ainda não tem tarefas cadastradas</p>
+                  <span>Crie tarefas e organize seus itens a fazer</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
