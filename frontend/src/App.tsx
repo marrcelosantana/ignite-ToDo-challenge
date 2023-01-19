@@ -1,6 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
 import { Header } from "./components/Header";
 import { ActivityCard } from "./components/ActivityCard";
 import { Activity } from "./models/Activity";
@@ -22,6 +21,7 @@ function App() {
 
   useEffect(() => {
     loadActivities();
+    console.log(activities);
   }, []);
 
   async function handleCreateActivity(event: FormEvent) {
@@ -99,9 +99,7 @@ function App() {
               {activities.map((activity: Activity) => (
                 <ActivityCard
                   key={activity.id}
-                  id={activity.id}
-                  description={activity.description}
-                  concluded={activity.concluded}
+                  activity={activity}
                   deleteActivity={() => handleDeleteActivity(activity.id)}
                 />
               ))}

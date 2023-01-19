@@ -12,10 +12,10 @@ interface ModalProps {
 }
 
 export function ModalDelete({
+  activityId,
   isOpenModal,
   closeModal,
   deleteActivity,
-  activityId,
 }: ModalProps) {
   return (
     <Modal

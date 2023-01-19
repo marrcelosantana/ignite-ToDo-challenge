@@ -60,6 +60,11 @@
     border-radius: 8px;
     color: white;
     font-weight: bold;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
   }
 
   .yes {
@@ -68,5 +73,15 @@
 
   .no {
     background: #f7475a;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%;
+  }
+
+  .modalContent {
+    width: 80%;
   }
 }
