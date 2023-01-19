@@ -23,7 +23,6 @@ function App() {
 
   useEffect(() => {
     loadActivities();
-    console.log(activities);
   }, []);
 
   async function handleCreateActivity(event: FormEvent) {
@@ -76,6 +75,18 @@ function App() {
     }
   }
 
+  function findConcluded() {
+    let concluded = [];
+
+    activities.filter((activity) => {
+      if (activity.concluded === true) {
+        concluded.push(activity);
+      }
+    });
+
+    return concluded.length;
+  }
+
   return (
     <div className="App">
       <Toaster />
@@ -108,7 +119,7 @@ function App() {
               <div className={styles.activitiesConcluded}>
                 <span>Concluídas</span>
                 <div className={styles.numberOfActivity}>
-                  2 de {activities.length}
+                  {findConcluded()} de {activities.length}
                 </div>
               </div>
             </div>
