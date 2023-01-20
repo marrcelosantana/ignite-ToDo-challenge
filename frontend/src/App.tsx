@@ -76,15 +76,15 @@ function App() {
   }
 
   function findTaskDone() {
-    let taskDones = [];
+    let tasksDone = [];
 
     tasks.filter((task) => {
       if (task.isDone === true) {
-        taskDones.push(task);
+        tasksDone.push(task);
       }
     });
 
-    return taskDones.length;
+    return tasksDone.length;
   }
 
   return (
